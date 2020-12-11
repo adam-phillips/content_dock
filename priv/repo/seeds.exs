@@ -9,3 +9,9 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+{:ok, _} =
+  ContentDock.Accounts.create_user(%{
+    email: "test@test.com",
+    first_name: "Test",
+    last_name: "User"
+  })
