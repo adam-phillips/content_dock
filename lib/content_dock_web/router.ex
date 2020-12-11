@@ -8,6 +8,8 @@ defmodule ContentDockWeb.Router do
     plug :put_root_layout, {ContentDockWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+
+    # Plug - set current user from user in the assign if present. .... if user_id in session, current_user = user from database
   end
 
   pipeline :api do
@@ -25,6 +27,16 @@ defmodule ContentDockWeb.Router do
 
     live "/users/:id", UserLive.Show, :show
     live "/users/:id/show/edit", UserLive.Show, :edit
+  end
+
+  scope "/session", ContentDockWeb do
+    pipe_through :browser
+
+    live "/login", LoginLive, :login
+
+    # Work on this
+    # Create controller that takes this and broadcasts token over PubSub
+    # TODO: get "/token/:token", Login, :submit_token
   end
 
   # Other scopes may use custom stacks.

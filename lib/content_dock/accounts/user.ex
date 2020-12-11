@@ -6,7 +6,6 @@ defmodule ContentDock.Accounts.User do
     field :email, :string
     field :first_name, :string
     field :last_name, :string
-    field :login_token, :string
 
     timestamps()
   end
@@ -14,7 +13,7 @@ defmodule ContentDock.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :first_name, :last_name, :login_token])
-    |> validate_required([:email, :first_name, :last_name, :login_token])
+    |> cast(attrs, [:email, :first_name, :last_name])
+    |> validate_required([:email, :first_name, :last_name])
   end
 end

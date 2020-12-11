@@ -101,4 +101,22 @@ defmodule ContentDock.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def handle_email_login(email, base_url) do
+    case Repo.get_by(User, email: email) do
+      %User{} -> send_login_link(email, base_url)
+      nil -> {:error, :user_not_found}
+    end
+  end
+
+  def send_login_link(email, base_url) do
+    token = UUID.uuid4()
+
+    ContentDock.Email.send(email, "ContentDock Login Link", ~s"""
+    Someone requested a login link using this address. If this was you, please click below:
+    #{base_url}/session/token/#{token}
+    """)
+
+    {:ok, token}
+  end
 end

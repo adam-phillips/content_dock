@@ -33,6 +33,8 @@ defmodule ContentDock.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:credo, "~> 1.5"},
+      {:uuid, "~> 1.1.8"},
       {:phoenix, "~> 1.5.6"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
