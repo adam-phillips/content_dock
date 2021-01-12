@@ -36,7 +36,7 @@ defmodule ContentDockWeb.Router do
 
     # Work on this
     # Create controller that takes this and broadcasts token over PubSub
-    # TODO: get "/token/:token", Login, :submit_token
+    get "/token/:token", Login, :submit_token
   end
 
   # Other scopes may use custom stacks.
