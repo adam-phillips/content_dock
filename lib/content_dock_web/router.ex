@@ -9,7 +9,7 @@ defmodule ContentDockWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
 
-    # Plug - set current user from user in the assign if present. .... if user_id in session, current_user = user from database
+    # Plug (AssignCurrentUser) - set current user from User%{} from DB in the assign if present. .... if user_id in session, current_user = user from database
   end
 
   pipeline :api do
@@ -37,6 +37,7 @@ defmodule ContentDockWeb.Router do
     # Work on this
     # Create controller that takes this and broadcasts token over PubSub
     get "/token/:token", Login, :submit_token
+    get "/set_session/:token", Login, :set_session_user_id
   end
 
   # Other scopes may use custom stacks.

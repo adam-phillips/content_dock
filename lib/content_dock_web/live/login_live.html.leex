@@ -1,4 +1,11 @@
-<%= form_for :login, "#" , [phx_submit: :login], fn f -> %>
+<%= if @logging_in do %>
+  <%= form_for :login, "#" , [phx_submit: :login], fn f -> %>
   <%= text_input f, :email, placeholder: "Email" %>
   <%= submit "Login" %>
 <% end %>
+<% else %>
+  <h3>If your email was found in our system, a message has been sent with a login link.</h3>
+  <p>Please keep this window open and you will be redirected</p>
+<% end %>
+<div id="login-token-hook" phx-hook="LoginToken"></div>
+<%= @current_user_id %>

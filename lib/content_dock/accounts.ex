@@ -103,9 +103,12 @@ defmodule ContentDock.Accounts do
   end
 
   def handle_email_login(email, base_url) do
-    case Repo.get_by(User, email: email) do
-      %User{} -> send_login_link(email, base_url)
+    with %User{id: id} <- Repo.get_by(User, email: email),
+         {:ok, token} <- send_login_link(email, base_url) do
+      {:ok, {token, id}}
+    else
       nil -> {:error, :user_not_found}
+      {:error, reason} -> {:error, reason}
     end
   end
 
