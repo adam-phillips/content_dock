@@ -13,12 +13,30 @@ import "../css/app.scss"
 //     import socket from "./socket"
 //
 import "phoenix_html"
-import {Socket} from "phoenix"
+import { Socket } from "phoenix"
 import NProgress from "nprogress"
-import {LiveSocket} from "phoenix_live_view"
+import { LiveSocket } from "phoenix_live_view"
 
+let Hooks = {};
+Hooks.LoginToken = {
+  mounted() {
+    console.log("Mounted")
+    this.handleEvent("login_token_validated", ({ token }) => {
+      console.log("Event received")
+      var xmlHttpRequest = new XMLHttpRequest();
+      xmlHttpRequest.open("GET", "/session/set_session/" + token, false);
+      xmlHttpRequest.send(null);
+      if (xmlHttpRequest.responseText == "ok") {
+        window.location = "/";
+      }
+      else {
+        alert("Failure");
+      }
+    })
+  }
+}
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken }, hooks: Hooks })
 
 // Show progress bar on live navigation and form submits
 window.addEventListener("phx:page-loading-start", info => NProgress.start())
