@@ -1,4 +1,7 @@
 defmodule ContentDock.Accounts.User do
+  @moduledoc """
+  Module for the User context
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,6 +9,8 @@ defmodule ContentDock.Accounts.User do
     field :email, :string
     field :first_name, :string
     field :last_name, :string
+
+    many_to_many :roles, ContentDock.Accounts.User, join_through: "users_roles"
 
     timestamps()
   end

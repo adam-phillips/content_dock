@@ -8,4 +8,6 @@
   <p>Please keep this window open and you will be redirected</p>
 <% end %>
 <div id="login-token-hook" phx-hook="LoginToken"></div>
-<%= @current_user_id %>
+<%= if @current_user do %>
+  <span>Hello, <%= @current_user.first_name %></span>
+<% end %>
