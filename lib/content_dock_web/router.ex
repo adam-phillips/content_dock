@@ -8,8 +8,7 @@ defmodule ContentDockWeb.Router do
     plug :put_root_layout, {ContentDockWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-
-    # Plug (AssignCurrentUser) - set current user from User%{} from DB in the assign if present. .... if user_id in session, current_user = user from database
+    plug(ContentDockWeb.Plugs.AssignCurrentUser)
   end
 
   pipeline :api do

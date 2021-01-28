@@ -8,6 +8,7 @@ defmodule ContentDockWeb.LoginLive do
       socket
       |> assign(:logging_in, true)
       |> assign(:current_user_id, session["current_user_id"])
+      |> assign(:current_user, session["current_user"])
 
     {:ok, socket}
   end
