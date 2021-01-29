@@ -32,11 +32,12 @@ defmodule ContentDockWeb.Router do
     pipe_through :browser
 
     live "/login", LoginLive, :login
+    get "/logout", Session, :logout
 
     # Work on this
     # Create controller that takes this and broadcasts token over PubSub
-    get "/token/:token", Login, :submit_token
-    get "/set_session/:token", Login, :set_session_user_id
+    get "/token/:token", Session, :submit_token
+    get "/set_session/:token", Session, :set_session_user_id
   end
 
   # Other scopes may use custom stacks.
