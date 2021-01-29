@@ -1,4 +1,4 @@
-defmodule ContentDockWeb.Login do
+defmodule ContentDockWeb.Session do
   use ContentDockWeb, :controller
 
   def submit_token(conn, %{"token" => token}) do
@@ -17,5 +17,11 @@ defmodule ContentDockWeb.Login do
         conn
         |> text("error")
     end
+  end
+
+  def logout(conn, _opts) do
+    conn
+    |> put_session(:current_user_id, nil)
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end

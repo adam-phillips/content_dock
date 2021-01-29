@@ -38,25 +38,12 @@ defmodule ContentDock.Accounts do
   def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
-  Gets a single user or returns nil if the User does not exist instead of raising
-
-  ## Examples
-
-      iex> get_user!(123)
-      %User{}
-
-      iex> get_user!(456)
-      nil
+  Returns User with Roles preloaded
   """
-  def get_user(id), do: Repo.get(User, id)
-
-  @doc """
-  Gets a single user and preloads associated roles to include in return
-  """
-  def get_user_with_roles(id) do
+  def get_user(id, preloads \\ []) do
     User
     |> Repo.get(id)
-    |> Repo.preload([:roles])
+    |> Repo.preload(preloads)
   end
 
   @doc """
