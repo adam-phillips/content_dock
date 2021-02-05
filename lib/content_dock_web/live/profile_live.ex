@@ -1,4 +1,4 @@
-defmodule ContentDockWeb.PageLive do
+defmodule ContentDockWeb.ProfileLive do
   use ContentDockWeb, :live_view
 
   @impl true

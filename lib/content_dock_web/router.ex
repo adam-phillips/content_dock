@@ -11,6 +11,11 @@ defmodule ContentDockWeb.Router do
     plug(ContentDockWeb.Plugs.AssignCurrentUser)
   end
 
+  # pipeline :authenticated do
+  #   # TODO build plug - if current_user in assigns, return conn; else redirect and halt (Routes.login_path)
+  #   plug(ContentDockWeb.Plugs.RequireAuthentication)
+  # end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -38,6 +43,13 @@ defmodule ContentDockWeb.Router do
     # Create controller that takes this and broadcasts token over PubSub
     get "/token/:token", Session, :submit_token
     get "/set_session/:token", Session, :set_session_user_id
+  end
+
+  scope "/profile", ContentDockWeb do
+    pipe_through :browser
+    # pipe_through :authenticated  TODO: Build plug and update this pipeline
+
+    live "/", ProfileLive, :profile
   end
 
   # Other scopes may use custom stacks.

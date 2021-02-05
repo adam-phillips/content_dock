@@ -3,7 +3,7 @@ defmodule ContentDockWeb.Session do
 
   def submit_token(conn, %{"token" => token}) do
     Phoenix.PubSub.broadcast(ContentDock.PubSub, "login_token:#{token}", {:login_token, token})
-    text(conn, "You made it in! Token: #{token}")
+    text(conn, "You've successfully logged in. Please close this tab and return to the main page.")
   end
 
   def set_session_user_id(conn, %{"token" => token}) do
