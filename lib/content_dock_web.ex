@@ -48,6 +48,7 @@ defmodule ContentDockWeb do
         layout: {ContentDockWeb.LayoutView, "live.html"}
 
       unquote(view_helpers())
+      import ContentDockWeb, only: [assign_session: 2]
     end
   end
 
@@ -74,6 +75,16 @@ defmodule ContentDockWeb do
       use Phoenix.Channel
       import ContentDockWeb.Gettext
     end
+  end
+
+  def assign_session(%Phoenix.LiveView.Socket{} = socket, %{} = session) do
+    socket
+    |> Phoenix.LiveView.assign_new(:current_user, fn ->
+      case Map.fetch(session, "current_user_id") do
+        {:ok, id} when not is_nil(id) -> id |> ContentDock.Accounts.get_user()
+        _ -> nil
+      end
+    end)
   end
 
   defp view_helpers do
