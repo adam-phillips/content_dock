@@ -3,12 +3,13 @@ defmodule ContentDockWeb.LoginLive do
 
   require Logger
 
-  def mount(_, session, socket) do
+  def mount(params, session, socket) do
     socket =
       socket
       |> assign(:logging_in, true)
       |> assign(:current_user_id, session["current_user_id"])
       |> assign(:current_user, session["current_user"])
+      |> assign(:redirect, Map.get(params, "redirect", "/"))
 
     {:ok, socket}
   end
@@ -45,9 +46,8 @@ defmodule ContentDockWeb.LoginLive do
   end
 
   def set_session_user_id(socket) do
-    token =
-      Phoenix.Token.sign(ContentDockWeb.Endpoint, "login_token_validated", socket.assigns.user_id)
+    token = Phoenix.Token.sign(ContentDockWeb.Endpoint, "login_token_validated", socket.assigns.user_id)
 
-    push_event(socket, "login_token_validated", %{token: token})
+    push_event(socket, "login_token_validated", %{token: token, redirect: socket.assigns.redirect})
   end
 end

@@ -21,13 +21,13 @@ let Hooks = {};
 Hooks.LoginToken = {
   mounted() {
     console.log("Mounted")
-    this.handleEvent("login_token_validated", ({ token }) => {
+    this.handleEvent("login_token_validated", ({ token, redirect }) => {
       console.log("Event received")
       var xmlHttpRequest = new XMLHttpRequest();
       xmlHttpRequest.open("GET", "/session/set_session/" + token, false);
       xmlHttpRequest.send(null);
       if (xmlHttpRequest.responseText == "ok") {
-        window.location = "/";
+        window.location = redirect;
       }
       else {
         alert("Failure");
