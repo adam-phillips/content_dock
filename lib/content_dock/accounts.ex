@@ -18,7 +18,9 @@ defmodule ContentDock.Accounts do
 
   """
   def list_users do
-    Repo.all(User)
+    User
+    |> Repo.all()
+    |> Repo.preload(:roles)
   end
 
   @doc """

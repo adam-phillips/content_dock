@@ -11,10 +11,9 @@ defmodule ContentDockWeb.Router do
     plug(ContentDockWeb.Plugs.AssignCurrentUser)
   end
 
-  # pipeline :authenticated do
-  #   # TODO build plug - if current_user in assigns, return conn; else redirect and halt (Routes.login_path)
-  #   plug(ContentDockWeb.Plugs.RequireAuthentication)
-  # end
+  pipeline :authenticated do
+    plug ContentDockWeb.Plugs.RequireAuthentication
+  end
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -47,7 +46,7 @@ defmodule ContentDockWeb.Router do
 
   scope "/profile", ContentDockWeb do
     pipe_through :browser
-    # pipe_through :authenticated  TODO: Build plug and update this pipeline
+    pipe_through :authenticated
 
     live "/", ProfileLive, :profile
   end
