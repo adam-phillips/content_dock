@@ -25,14 +25,15 @@ defmodule ContentDockWeb.ProfileLive do
   def handle_event("save", %{"user" => user_params}, socket) do
     user = socket.assigns.current_user
 
-    case Accounts.update_user(user, user_params) do
-      {:ok, %User{}} ->
-        {:noreply,
+    socket = case Accounts.update_user(user, user_params) do
+      {:ok, %User{} = updated_user} ->
          socket
-         |> put_flash(:info, "User profile was updated!")}
+         |> assign(current_user: updated_user)
+         |> put_flash(:info, "User profile was updated!")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        {:noreply, assign(socket, changeset: changeset)}
+        assign(socket, changeset: changeset)
     end
+    {:noreply, socket}
   end
 end

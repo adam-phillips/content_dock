@@ -51,6 +51,13 @@ defmodule ContentDockWeb.Router do
     live "/", ProfileLive, :profile
   end
 
+  scope "/pages", ContentDockWeb do
+    pipe_through :browser
+    pipe_through :authenticated
+
+    get "/:path", PageController, :show
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ContentDockWeb do
   #   pipe_through :api
