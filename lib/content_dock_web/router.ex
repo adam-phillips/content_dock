@@ -38,8 +38,6 @@ defmodule ContentDockWeb.Router do
     live "/login", LoginLive, :login
     get "/logout", Session, :logout
 
-    # Work on this
-    # Create controller that takes this and broadcasts token over PubSub
     get "/token/:token", Session, :submit_token
     get "/set_session/:token", Session, :set_session_user_id
   end
@@ -55,7 +53,12 @@ defmodule ContentDockWeb.Router do
     pipe_through :browser
     pipe_through :authenticated
 
-    get "/:path", PageController, :show
+    live "/blogs", BlogLive.Index, :index
+    live "/blogs/new", BlogLive.Index, :new
+    live "/blogs/:id/edit", BlogLive.Index, :edit
+
+    live "/blogs/:id", BlogLive.Show, :show
+    live "/blogs/:id/show/edit", BlogLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
