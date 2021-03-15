@@ -1,0 +1,40 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "blog-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :description %>
+  <%= text_input f, :description %>
+  <%= error_tag f, :description %>
+
+  <%= label f, :blog_content %>
+  <div id="quill-container" phx-update="ignore" phx-hook="QuillEditor">
+   <div id="editor"></div>
+  </div>
+  <%= hidden_input f, :blog_content %>
+  <%= hidden_input f, :rendered_html %>
+  <%= error_tag f, :rendered_html %>
+  <%= error_tag f, :blog_content %>
+  <%# TODO: The error tag isn't rendering when triggered - the span still has class="invalid-feedback phx-no-feedback" %>
+
+  <%= label f, :slug %>
+  <%= text_input f, :slug %>
+  <%= error_tag f, :slug %>
+
+  <%= label f, :published_at %>
+  <%= datetime_select f, :published_at %>
+  <%= error_tag f, :published_at %>
+
+  <%= label f, :tags %>
+  <%= multiple_select f, :tags, ["Option 1": "option1", "Option 2": "option2"] %>
+  <%= error_tag f, :tags %>
+
+  <%= submit "Save", phx_disable_with: "Saving..." %>
+</form>

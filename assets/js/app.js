@@ -16,6 +16,23 @@ import "phoenix_html"
 import { Socket } from "phoenix"
 import NProgress from "nprogress"
 import { LiveSocket } from "phoenix_live_view"
+import Quill from "quill"
+import "quill/dist/quill.snow.css"
+
+function initQuill() {
+  const editorInstance = new Quill('#editor', {
+    debug: 'info',
+    theme: 'snow'
+  });
+  editorInstance.enable();
+  editorInstance.on('text-change', function (delta, oldDelta, source) {
+    document.querySelector('#blog-form_blog_content').value = JSON.stringify(editorInstance.getContents());
+    document.querySelector('#blog-form_rendered_html').value = document.querySelector('#editor').children[0].innerHTML;
+    console.log('getContents', JSON.stringify(editorInstance.getContents()));
+    console.log('innerHTML', document.querySelector('#editor').children[0].innerHTML);
+  });
+  // TODO: when editing blog, decode JSON from `blog_content` and put in Quill
+}
 
 let Hooks = {};
 Hooks.LoginToken = {
@@ -35,6 +52,21 @@ Hooks.LoginToken = {
     })
   }
 }
+
+Hooks.QuillEditor = {
+  mounted() {
+    if (document.readyState == "complete") {
+      initQuill();
+    } else {
+      document.addEventListener("readystatechange", () => {
+        if (document.readyState == "complete") {
+          initQuill();
+        }
+      })
+    }
+  }
+}
+
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, { params: { _csrf_token: csrfToken }, hooks: Hooks })
 
